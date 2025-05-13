@@ -4,6 +4,7 @@ import Home from "./pages/website/home";
 import Login from "./auth/login";
 import Register from "./auth/register";
 import Layout from "./layout";
+import { ThemeProvider } from "./context/ThemeContext";
 
 // Simple layout component
 // const Layout = ({ children }) => (
@@ -26,7 +27,7 @@ const AuthRoute = ({ element }) => {
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <Toaster position="top-right" reverseOrder={false} />
       
       <Routes>
@@ -42,7 +43,7 @@ function App() {
         {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 
