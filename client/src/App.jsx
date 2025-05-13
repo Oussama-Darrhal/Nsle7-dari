@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast';
 import Home from "./pages/website/home";
 import Login from "./auth/login";
 import Register from "./auth/register";
+import { Toaster } from "react-hot-toast";
+import Layout from "./layout";
 
 // Simple layout component
 const Layout = ({ children }) => (
@@ -26,21 +28,21 @@ const AuthRoute = ({ element }) => {
 function App() {
   return (
     <>
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-      />
-    
+      <Toaster position="top-right" reverseOrder={false} />
+      
       <Routes>
-        {/* Auth Routes (only accessible when not authenticated) */}
-        <Route path="/login" element={<AuthRoute element={<Login />} />}/>
-        <Route path="/register" element={<AuthRoute element={<Register />} />} />
-
+        {/* Public route */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
         </Route>
 
-        {/* Catch-all route */}
+        {/* Auth routes (uncomment if using auth logic) */}
+        {/* 
+        <Route path="/login" element={<AuthRoute element={<Login />} />} />
+        <Route path="/register" element={<AuthRoute element={<Register />} />} />
+        */}
+
+        {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
