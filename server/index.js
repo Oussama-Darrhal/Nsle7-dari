@@ -7,6 +7,7 @@ import path from 'path';
 
 // Import routes
 import userRoutes from './routes/userRoutes.js';
+import whiteEmailRoutes from './routes/whiteEmailRoutes.js';
 
 // Connect to database
 connectDB();
@@ -43,6 +44,7 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/whitelist', whiteEmailRoutes);
 
 // Start server
 app.listen(PORT, () => {

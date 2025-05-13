@@ -2,6 +2,7 @@ import User from '../model/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import config from '../config/env.config.js';
+import { isEmailWhitelisted } from './whiteEmailController.js';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -22,12 +23,17 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
     
+    // Check if email is whitelisted
+    const isWhitelisted = await isEmailWhitelisted(email);
+    
+    // Create user with appropriate role based on whitelist status
     const user = await User.create({
       firstname,
       lastname,
       phone,
       email,
-      password
+      password,
+      role: isWhitelisted ? 'pro' : 'user' // Set role to 'pro' if email is whitelisted
     });
     
     if (user) {
@@ -38,6 +44,7 @@ export const registerUser = async (req, res) => {
         email: user.email,
         phone: user.phone,
         avatar: user.avatar,
+        role: user.role,
         token: generateToken(user._id)
       });
     }
