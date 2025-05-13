@@ -3,15 +3,14 @@ import { Toaster } from 'react-hot-toast';
 import Home from "./pages/website/home";
 import Login from "./auth/login";
 import Register from "./auth/register";
-import { Toaster } from "react-hot-toast";
 import Layout from "./layout";
 
 // Simple layout component
-const Layout = ({ children }) => (
-  <div>
-    {children}
-  </div>
-);
+// const Layout = ({ children }) => (
+//   <div>
+//     {children}
+//   </div>
+// );
 
 // AuthRoute component to prevent logged-in users from accessing auth pages
 const AuthRoute = ({ element }) => {
@@ -37,10 +36,8 @@ function App() {
         </Route>
 
         {/* Auth routes (uncomment if using auth logic) */}
-        {/* 
         <Route path="/login" element={<AuthRoute element={<Login />} />} />
         <Route path="/register" element={<AuthRoute element={<Register />} />} />
-        */}
 
         {/* Catch-all redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
