@@ -1,20 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, toggleDarkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  
-  // Check system preference for dark/light mode
-  useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setDarkMode(prefersDark);
-  }, []);
-  
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,7 +21,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/" className={`font-bold text-xl ${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+            <Link to="/" className={`font-bold text-xl ${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
               Nsle7 Dari
             </Link>
           </div>
@@ -40,7 +31,7 @@ const Navbar = () => {
             <div className="ml-10 flex items-center space-x-4">
               <Link 
                 to="/" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-3 py-2 rounded-md text-sm font-medium no-underline ${
                   isActive('/') 
                     ? (darkMode ? 'bg-gray-900 text-orange-400' : 'bg-beige-50 text-orange-500') 
                     : (darkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-700 hover:bg-beige-50 hover:text-orange-500')
@@ -51,7 +42,7 @@ const Navbar = () => {
               
               <Link 
                 to="/services" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-3 py-2 rounded-md text-sm font-medium no-underline ${
                   isActive('/services') 
                     ? (darkMode ? 'bg-gray-900 text-orange-400' : 'bg-beige-50 text-orange-500') 
                     : (darkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-700 hover:bg-beige-50 hover:text-orange-500')
@@ -62,7 +53,7 @@ const Navbar = () => {
               
               <Link 
                 to="/about" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-3 py-2 rounded-md text-sm font-medium no-underline ${
                   isActive('/about') 
                     ? (darkMode ? 'bg-gray-900 text-orange-400' : 'bg-beige-50 text-orange-500') 
                     : (darkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-700 hover:bg-beige-50 hover:text-orange-500')
@@ -73,7 +64,7 @@ const Navbar = () => {
               
               <Link 
                 to="/contact" 
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-3 py-2 rounded-md text-sm font-medium no-underline ${
                   isActive('/contact') 
                     ? (darkMode ? 'bg-gray-900 text-orange-400' : 'bg-beige-50 text-orange-500') 
                     : (darkMode ? 'text-gray-300 hover:bg-gray-700 hover:text-white' : 'text-gray-700 hover:bg-beige-50 hover:text-orange-500')
@@ -88,7 +79,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center">
             <Link 
               to="/login" 
-              className={`ml-4 px-4 py-2 rounded-md text-sm font-medium ${
+              className={`ml-4 px-4 py-2 rounded-md text-sm font-medium no-underline ${
                 darkMode 
                   ? 'text-orange-400 hover:bg-gray-700' 
                   : 'text-orange-500 hover:bg-beige-50'
@@ -99,7 +90,7 @@ const Navbar = () => {
             
             <Link 
               to="/register" 
-              className={`ml-4 px-4 py-2 rounded-md text-sm font-medium ${
+              className={`ml-4 px-4 py-2 rounded-md text-sm font-medium no-underline ${
                 darkMode 
                   ? 'bg-orange-500 hover:bg-orange-600 text-white' 
                   : 'bg-orange-500 hover:bg-orange-600 text-white'
@@ -111,10 +102,18 @@ const Navbar = () => {
             {/* Dark Mode Toggle */}
             <button 
               onClick={toggleDarkMode}
-              className="ml-4 p-2 rounded-full"
+              className={`ml-4 p-2 rounded-full ${darkMode ? 'bg-gray-700 text-orange-400' : 'bg-beige-50 text-orange-500'}`}
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {darkMode ? '🌞' : '🌙'}
+              {darkMode ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
             </button>
           </div>
           
@@ -122,10 +121,18 @@ const Navbar = () => {
           <div className="flex md:hidden">
             <button 
               onClick={toggleDarkMode}
-              className="p-2 rounded-full"
+              className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-orange-400' : 'bg-beige-50 text-orange-500'}`}
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {darkMode ? '🌞' : '🌙'}
+              {darkMode ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
             </button>
             
             <button

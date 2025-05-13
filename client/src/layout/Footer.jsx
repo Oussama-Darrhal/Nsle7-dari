@@ -1,23 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  
-  // Check system preference for dark/light mode
-  useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setDarkMode(prefersDark);
-    
-    // Listen for changes in the color scheme preference
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      setDarkMode(mediaQuery.matches);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  const { darkMode } = useTheme();
   
   return (
     <footer className={`${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-beige-50 text-gray-700'} mt-8`}>
@@ -25,7 +11,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between">
           {/* Logo and description */}
           <div className="mb-6 md:mb-0 max-w-xs">
-            <Link to="/" className={`font-bold text-xl mb-4 inline-block ${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+            <Link to="/" className={`font-bold text-xl mb-4 inline-block ${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
               Nsle7 Dari
             </Link>
             <p className="mt-2">Your trusted partner for home repair and maintenance services.</p>
@@ -36,22 +22,22 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                <Link to="/" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/services" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                <Link to="/services" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/about" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                <Link to="/about" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'}`}>
+                <Link to="/contact" className={`hover:${darkMode ? 'text-orange-400' : 'text-orange-500'} no-underline`}>
                   Contact
                 </Link>
               </li>
@@ -72,13 +58,13 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'}`}>
+              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'} no-underline`}>
                 Facebook
               </a>
-              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'}`}>
+              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'} no-underline`}>
                 Twitter
               </a>
-              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'}`}>
+              <a href="#" className={`${darkMode ? 'text-orange-400 hover:text-orange-300' : 'text-orange-500 hover:text-orange-600'} no-underline`}>
                 Instagram
               </a>
             </div>
