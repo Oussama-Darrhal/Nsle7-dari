@@ -2,9 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import config from './config/env.config.js';
+import fs from 'fs';
+import path from 'path';
 
-// Import models
-import User from './model/User.js';
+// Import routes
+import userRoutes from './routes/userRoutes.js';
+import whiteEmailRoutes from './routes/whiteEmailRoutes.js';
 
 // Connect to database
 connectDB();
@@ -25,51 +28,23 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Create uploads directory if it doesn't exist
+const uploadsDir = './uploads';
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // Basic route
 app.get('/', (req, res) => {
   res.json({ message: 'API is running...' });
 });
 
-// User routes - basic examples
-app.get('/api/users', async (req, res) => {
-  try {
-    const users = await User.find({}).select('-password');
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-app.post('/api/users', async (req, res) => {
-  try {
-    const { firstname, lastname, phone, email, password } = req.body;
-    
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-    
-    const user = await User.create({
-      firstname,
-      lastname,
-      phone,
-      email,
-      password
-    });
-    
-    if (user) {
-      res.status(201).json({
-        _id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        phone: user.phone
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+// Routes
+app.use('/api/users', userRoutes);
+app.use('/api/whitelist', whiteEmailRoutes);
 
 // Start server
 app.listen(PORT, () => {
